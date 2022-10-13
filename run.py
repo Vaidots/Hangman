@@ -1,11 +1,12 @@
 import random
-from words import words
-from hangman_visual import lives_visual_dict
 import string
+from words import words
+import sys
+from hangman_visual import lives_visual_dict
 
 
 def welcome_user():
-  
+
     username = None
 
     while True:
@@ -25,7 +26,7 @@ welcome_user()
 
 
 def get_valid_word(words):
-   
+
     word = random.choice(words)  # randomly chooses word from the list
 
     return word.upper()     # Word come back capital letters
@@ -46,12 +47,12 @@ def hangman():
         print('You have', lives, 'lives left')
         print('You alreadyy used these letters: ', ' '.join(used_letters))
 
-        # what current word is 
+        # what current word is
         output = [letter if letter in used_letters else '_' for letter in word]
         print(lives_visual_dict[lives])
         print('The Current word: ', ' '.join(output))
 
-        user_letter = input('\nGuess a lette r: ').upper()
+        user_letter = input('\nGuess a letter: ').upper()
         if user_letter in alphabet - used_letters:
             used_letters.add(user_letter)
             if user_letter in word_letters:
@@ -73,14 +74,21 @@ def hangman():
         print(lives_visual_dict[lives])
         print('You died, sorry. The word was', word)
     else:
-        print('Congratulations! the word is', word, '!!') 
-  
+        print('Congratulations! the word is', word, '!!')
+
+    play_again = input(
+        '\nEnter y to play again or any other letter to quit').strip().lower()
+
+    if play_again == 'y':
+        hangman()
+
+    else:
+        print('Goodbye!')
+        sys.exit(0)
 
 # 1. Module can be run as a standalone program
 # 2. Module can be imported and used by other modules
 
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     hangman()
-    
-
