@@ -1,11 +1,16 @@
 import random
 import string
-from words import words
 import sys
+from words import words
 from hangman_visual import lives_visual_dict
 
 
 def welcome_user():
+    """
+    Lets username choose his name
+    Has to be alphabets only
+    Greets the username with his chosen name
+    """
 
     username = None
 
@@ -17,7 +22,7 @@ def welcome_user():
             print('Username must be alphabets only')
             continue
         else:
-            print('welcome '+username)
+            print(f'welcome {username}')
             break
 
 
@@ -26,13 +31,22 @@ welcome_user()
 
 
 def get_valid_word(words):
-
+    """
+    Generates a random word from word.py
+    The word will be generated capital letters
+    """
     word = random.choice(words)  # randomly chooses word from the list
-
     return word.upper()     # Word come back capital letters
 
 
 def hangman():
+    """
+    Generates random word
+    Counts how many letters it has
+    Alphabet only and upper case
+    username has 7 lives/tries
+
+    """
     word = get_valid_word(words)
     word_letters = set(word)  # letters in the word
     alphabet = set(string.ascii_uppercase)
@@ -44,8 +58,8 @@ def hangman():
     while len(word_letters) > 0 and lives > 0:
         # letters used
         # ' '.join(['a', 'b', 'cd']) --> 'a b cd'
-        print('You have', lives, 'lives left')
-        print('You alreadyy used these letters: ', ' '.join(used_letters))
+        print(f'You have {lives} ''lives left')
+        print('You already used these letters: ', ' '.join(used_letters))
 
         # what current word is
         output = [letter if letter in used_letters else '_' for letter in word]
@@ -61,7 +75,7 @@ def hangman():
 
             else:
                 lives = lives - 1  # takes away a life if wrong
-                print('\nYour letter,', user_letter, 'is not in the word.')
+                print(f'Your letter {user_letter}, is not in the word.')
 
         elif user_letter in used_letters:
             print('\nYou have already used that letter. Guess another letter.')
@@ -72,12 +86,12 @@ def hangman():
     # gets here when len(word_letters) == 0 OR when lives == 0
     if lives == 0:
         print(lives_visual_dict[lives])
-        print('You died, sorry. The word was', word)
+        print(f'You died, sorry. The word was, {word}')
     else:
-        print('Congratulations! the word is', word, '!!')
+        print(f'Congratulations! the word is {word}, !!')
 
     play_again = input(
-        '\nEnter y to play again or any other letter to quit').strip().lower()
+        '\nEnter y to play again or any other letter to quit:').strip().lower()
 
     if play_again == 'y':
         hangman()
